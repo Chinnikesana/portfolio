@@ -3,7 +3,24 @@ import { ArrowUpRight, Github, ImagePlus } from 'lucide-react';
 import { projects, type Project } from '../data';
 import Reveal from './Reveal';
 
-function ScreenshotPlaceholder({ name }: { name: string }) {
+function ScreenshotPlaceholder({ name, image }: { name: string; image?: string }) {
+  if (image) {
+    return (
+      <div
+        className="group relative flex w-full items-center justify-center overflow-hidden rounded-lg border border-border bg-navy-900/60"
+        style={{ aspectRatio: '16/9' }}
+        aria-label={`Screenshot for ${name}`}
+      >
+        <img
+          src={image}
+          alt={name}
+          className="h-full w-full object-cover"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(59,130,246,0.03)_0%,transparent_60%)]" />
+      </div>
+    );
+  }
+
   return (
     <div
       className="group relative flex w-full items-center justify-center overflow-hidden rounded-lg border border-dashed border-border bg-navy-900/60"
@@ -36,6 +53,8 @@ function CategoryBadge({ label }: { label: string }) {
 }
 
 function FeaturedProject({ project, index }: { project: Project; index: number }) {
+  const isCompactHeight = project.id === 'lumina' || project.id === 'hospitality-ai';
+  
   return (
     <Reveal delay={index * 80}>
       <article className="group relative grid grid-cols-1 gap-0 overflow-hidden rounded-2xl border border-border bg-navy-800/50 transition-all duration-300 hover:border-border-bright hover:shadow-card-hover lg:grid-cols-2">
@@ -43,7 +62,9 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
         <div className="relative overflow-hidden border-b border-border lg:border-b-0 lg:border-r">
           <div className="absolute inset-0 z-10 bg-gradient-to-r from-transparent to-navy-800/20 pointer-events-none" />
           <div className="p-4 sm:p-5">
-            <ScreenshotPlaceholder name={project.name} />
+            <div style={{ aspectRatio: isCompactHeight ? '16/6' : '16/9' }} className="relative w-full">
+              <ScreenshotPlaceholder name={project.name} image={project.image} />
+            </div>
           </div>
         </div>
 
@@ -134,7 +155,7 @@ function ScrollCard({ project }: { project: Project }) {
   return (
     <article className="group relative flex-shrink-0 w-[320px] overflow-hidden rounded-xl border border-border bg-navy-800/50 transition-all duration-300 hover:border-border-bright hover:shadow-card-hover hover:-translate-y-1">
       <div className="p-4">
-        <ScreenshotPlaceholder name={project.name} />
+        <ScreenshotPlaceholder name={project.name} image={project.image} />
       </div>
 
       <div className="flex flex-col p-4 pt-0">
@@ -281,8 +302,8 @@ export default function Projects() {
           </div>
         </Reveal>
 
-        {/* Featured — 2 column grid */}
-        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Featured — 1 column grid */}
+        <div className="mt-10 grid grid-cols-1 gap-6">
           {featured.map((p, i) => (
             <FeaturedProject key={p.id} project={p} index={i} />
           ))}

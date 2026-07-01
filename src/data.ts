@@ -89,6 +89,7 @@ export type Project = {
   repoUrl?: string;
   featured?: boolean;
   category: string;
+  image?: string;
 };
 
 export const projects: Project[] = [
@@ -98,6 +99,7 @@ export const projects: Project[] = [
     tagline: 'AI-powered interview prep platform',
     category: 'AI / RAG',
     featured: true,
+    image: '/images/Lumina.jpeg',
     problem:
       'Students struggle to learn from lengthy PDFs because traditional document readers are passive, time-consuming, and lack interactive guidance, synchronized explanations, and personalized assistance.',
     approach:
@@ -114,12 +116,13 @@ export const projects: Project[] = [
     tagline: 'Real-time Voice AI hotel concierge',
     category: 'AI / RAG',
     featured: true,
+    image: '/images/hospitalityAI.png.png',
     problem:
-      'Hotel front-desk teams cannot field 24/7 multilingual guest requests across food orders, housekeeping, maintenance, and concierge services without long wait times and dropped requests.',
+      'Hotels rely heavily on front-desk staff to manually receive, record, and route guest requests, leading to delayed responses, operational overhead, and inconsistent guest experiences.',
     approach:
-      'Migrated the voice agent from a single-prompt design to a 22-node conversational flow architecture on Retell AI with a deterministic intent router and dedicated department subagents (Food Order, Restaurant, Maintenance, Security/Lost & Found, Concierge, Frontdesk). Built a FastAPI + MongoDB backend with Celery/Redis for async background tasks, and integrated with Quore for hotel operations data sync.',
+      'Built an AI-powered hospitality platform that automates guest interactions through a voice assistant, intelligently routes requests to the appropriate hotel departments, and provides staff with a real-time operations dashboard for request tracking and management.',
     result:
-      'Cut agent prompt size from ~5,000 to ~600 tokens per node, eliminated duplicate and premature tool-call bugs, and enforced a consistent confirm-before-submit pattern across every department flow.',
+      'Reduced manual intervention in guest service workflows by automating request handling, improving response times, and enabling hotel staff to focus on delivering a better guest experience.',
     stack: ['Retell AI', 'FastAPI', 'MongoDB (Motor)', 'Celery', 'Redis', 'Quore API'],
     // repoUrl: '',
   },
@@ -129,15 +132,13 @@ export const projects: Project[] = [
     tagline: 'AI meeting-intelligence assistant',
     category: 'AI / RAG',
     featured: false,
-    problem:
-      'Remote teams lose critical meeting context because notes are scattered and action items are forgotten.',
-    approach:
-      'Led the React frontend and built a Cross-Memory GPT feature with custom RAG. Modeled data in PostgreSQL/MySQL for fast context retrieval.',
-    result:
-      'Meeting recall accuracy improved by 60%. Action-item follow-through increased from 30% to 75%.',
-    stack: ['React', 'RAG', 'PostgreSQL', 'MySQL'],
-    liveUrl: 'https://momentum-ai.example.com',
-    repoUrl: 'https://github.com/yourname/momentum-ai',
+    image: '/images/MomantumAI.jpeg',
+    problem: 'Meeting knowledge is often lost after calls, making it difficult for teams to recall discussions, decisions, and assigned tasks',
+    approach: 'Built an AI-powered meeting assistant with automated scheduling, bot-based recording, live transcription, AI-generated summaries, and personalized action-item tracking.',
+    result: 'Created a centralized workspace where every meeting becomes searchable, organized, and easy to revisit, improving collaboration and follow-through.',
+    stack: ['React', 'RAG', 'PostgreSQL', 'MySQL','FASTAPI','retellAI'],
+    liveUrl: 'https://momentumaisolutions.org/',
+    repoUrl: 'https://github.com/Code-wiki-AI/Momentum-Backend',
   },
   {
     id: 'crime-portal',
@@ -152,8 +153,8 @@ export const projects: Project[] = [
     result:
       'Increased reporting rates by 25% in pilot district. Average case resolution visibility improved from opaque to real-time.',
     stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Socket.io'],
-    liveUrl: 'https://crime-portal.example.com',
-    repoUrl: 'https://github.com/yourname/crime-portal',
+    liveUrl: '',
+    repoUrl: 'https://github.com/Chinnikesana/online_complaint_portal.git',
   },
   {
     id: 'slm',
@@ -161,14 +162,15 @@ export const projects: Project[] = [
     tagline: 'Transformer-based LLM built from scratch',
     category: 'ML Research',
     featured: false,
+    image: '/images/slm.jpeg',
     problem:
       'Understanding LLM internals requires more than API calls — it demands hands-on implementation of attention, tokenization, and training loops.',
     approach:
       'Built a complete transformer from scratch in PyTorch: custom tokenizer, training loop with gradient descent, and nucleus sampling for text generation.',
     result:
       'Achieved coherent text generation on a small corpus. Deep understanding of attention mechanisms, tokenization, and optimization.',
-    stack: ['Python', 'PyTorch', 'Transformer', 'Custom Tokenizer'],
-    repoUrl: 'https://github.com/yourname/slm-from-scratch',
+    stack: ['Python', 'PyTorch', 'Transformer', 'BPE Tokenizer'],
+    repoUrl: '',
   },
   {
     id: 'rag-chatbot',
@@ -183,8 +185,8 @@ export const projects: Project[] = [
     result:
       'Users get accurate answers from uploaded documents in seconds. Retrieval accuracy over 90% on test document sets.',
     stack: ['ChromaDB', 'Vector Embeddings', 'Gemini API', 'Streamlit', 'Python'],
-    liveUrl: 'https://rag-chatbot.example.com',
-    repoUrl: 'https://github.com/yourname/rag-chatbot',
+    liveUrl: '',
+    repoUrl: '',
   },
   {
     id: 'calorie-tracker',
@@ -192,6 +194,7 @@ export const projects: Project[] = [
     tagline: 'Computer vision food detection with personalized diet plans',
     category: 'Computer Vision',
     featured: false,
+    image: '/images/AI-PoweredCalorieTracking.png',
     problem:
       'Manual calorie logging is tedious and inaccurate. Users need an automated way to identify food and track nutrition.',
     approach:
@@ -199,8 +202,8 @@ export const projects: Project[] = [
     result:
       'Food detection accuracy improved significantly. Users get personalized diet plans and progress tracking with exportable reports.',
     stack: ['YOLOv11', 'MERN Stack', 'Google Gemini', 'Computer Vision', 'Roboflow'],
-    liveUrl: 'https://calorie-tracker.example.com',
-    repoUrl: 'https://github.com/yourname/calorie-tracker',
+    liveUrl: '',
+    repoUrl: 'https://github.com/Pallapusanthosh/calorie_backend.git',
   },
   {
     id: 'seo-audit',
@@ -208,6 +211,7 @@ export const projects: Project[] = [
     tagline: 'Instant SEO, accessibility, and performance audits',
     category: 'Full-Stack',
     featured: false,
+    image: '/images/seo_audit&performance_tool.jpeg',
     problem:
       'Developers and website owners launch sites without knowing critical SEO, accessibility, and performance issues.',
     approach:
@@ -215,8 +219,8 @@ export const projects: Project[] = [
     result:
       'Helps identify bottlenecks before launch. Improved user experience and search rankings for tested sites.',
     stack: ['Next.js', 'Vercel', 'REST APIs', 'Google PageSpeed Insights'],
-    liveUrl: 'https://seo-audit.example.com',
-    repoUrl: 'https://github.com/yourname/seo-audit',
+    liveUrl: 'seo-and-performance-audit-tool-2y093qu6w.vercel.app',
+    repoUrl: 'https://github.com/Chinnikesana/SEO_AND_PERFORMANCE_AUDIT_TOOL.git',
   },
   {
     id: 'storyteller',
@@ -231,8 +235,8 @@ export const projects: Project[] = [
     result:
       'Story engagement time increased by 3x. Emotion detection accuracy reached 88% on test dataset.',
     stack: ['YOLOv8', 'DeepFace', 'Gemini API', 'Streamlit', 'Python'],
-    liveUrl: 'https://storyteller-ai.example.com',
-    repoUrl: 'https://github.com/yourname/storyteller',
+    liveUrl: '',
+    repoUrl: '',
   },
 ];
 
@@ -295,7 +299,7 @@ export const profile = {
   location: 'Andhra Pradesh, India',
   email: 'n200626@rguktn.ac.in',
   github: 'https://github.com/Chinnikesana',
-  linkedin: 'https://www.linkedin.com/in/chinni-kesana',
+  linkedin: 'https://www.linkedin.com/in/chinni-kesana-b1b2bb264/',
   resume: '#',
   photo: '/images/passport_size_img.jpeg',
   pitch:
