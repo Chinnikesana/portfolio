@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { ArrowUpRight, Github, ImagePlus } from 'lucide-react';
-import { projects, type Project } from '../data';
+import { normalizeUrl, projects, type Project } from '../data';
 import Reveal from './Reveal';
 
 function ScreenshotPlaceholder({ name, image }: { name: string; image?: string }) {
@@ -54,7 +54,9 @@ function CategoryBadge({ label }: { label: string }) {
 
 function FeaturedProject({ project, index }: { project: Project; index: number }) {
   const isCompactHeight = project.id === 'lumina' || project.id === 'hospitality-ai';
-  
+  const liveUrl = normalizeUrl(project.liveUrl);
+  const repoUrl = normalizeUrl(project.repoUrl);
+
   return (
     <Reveal delay={index * 80}>
       <article className="group relative grid grid-cols-1 gap-0 overflow-hidden rounded-2xl border border-border bg-navy-800/50 transition-all duration-300 hover:border-border-bright hover:shadow-card-hover lg:grid-cols-2">
@@ -118,9 +120,9 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
 
           {/* Links */}
           <div className="mt-4 flex items-center gap-3 border-t border-border pt-4">
-            {project.liveUrl ? (
+            {liveUrl ? (
               <a
-                href={project.liveUrl}
+                href={liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/link inline-flex items-center gap-1.5 rounded-lg bg-blue-glow px-4 py-2 text-[13px] font-medium text-white shadow-glow-sm transition-all hover:bg-blue-bright"
@@ -133,9 +135,9 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
                 Company Product — Private
               </span>
             )}
-            {project.repoUrl && (
+            {repoUrl && (
               <a
-                href={project.repoUrl}
+                href={repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/link inline-flex items-center gap-1.5 rounded-lg border border-border bg-navy-900/50 px-4 py-2 text-[13px] font-medium text-ink-muted transition-all hover:border-border-bright hover:text-ink"
@@ -152,6 +154,9 @@ function FeaturedProject({ project, index }: { project: Project; index: number }
 }
 
 function ScrollCard({ project }: { project: Project }) {
+  const liveUrl = normalizeUrl(project.liveUrl);
+  const repoUrl = normalizeUrl(project.repoUrl);
+
   return (
     <article className="group relative flex-shrink-0 w-[320px] overflow-hidden rounded-xl border border-border bg-navy-800/50 transition-all duration-300 hover:border-border-bright hover:shadow-card-hover hover:-translate-y-1">
       <div className="p-4">
@@ -191,9 +196,9 @@ function ScrollCard({ project }: { project: Project }) {
         </div>
 
         <div className="mt-3 flex items-center gap-2 border-t border-border pt-3">
-          {project.liveUrl && (
+          {liveUrl && (
             <a
-              href={project.liveUrl}
+              href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[12px] font-medium text-blue-bright hover:text-blue-electric transition-colors"
@@ -201,15 +206,15 @@ function ScrollCard({ project }: { project: Project }) {
               Demo <ArrowUpRight className="h-3 w-3" />
             </a>
           )}
-          {project.repoUrl && (
+          {repoUrl && (
             <a
-              href={project.repoUrl}
+              href={repoUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-[12px] font-medium text-ink-muted hover:text-ink transition-colors"
             >
               <Github className="h-3 w-3" />
-              {project.liveUrl ? 'Code' : 'GitHub (repo only)'}
+              {liveUrl ? 'Code' : 'GitHub (repo only)'}
             </a>
           )}
         </div>
@@ -220,44 +225,66 @@ function ScrollCard({ project }: { project: Project }) {
 
 function ScrollingRow({ projects }: { projects: Project[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [pointerX, setPointerX] = useState<number | null>(null);
   const animationRef = useRef<number>(0);
   const scrollPosRef = useRef(0);
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
+    const container = containerRef.current;
+    if (!track || !container) return;
 
-    const speed = 0.5;
+    const speed = 0.9;
     let lastTime = performance.now();
 
     const animate = (time: number) => {
       const delta = time - lastTime;
       lastTime = time;
 
-      if (!isHovered) {
+      const maxScroll = track.scrollWidth / 2;
+
+      if (isHovered && pointerX !== null) {
+        const rect = container.getBoundingClientRect();
+        const relativeX = pointerX - rect.left;
+        const threshold = rect.width * 0.2;
+        let direction = 0;
+
+        if (relativeX < threshold) {
+          direction = -1;
+        } else if (relativeX > rect.width - threshold) {
+          direction = 1;
+        }
+
+        scrollPosRef.current = Math.max(0, Math.min(maxScroll, scrollPosRef.current + direction * speed * (delta / 16) * 1.8));
+      } else {
         scrollPosRef.current += speed * (delta / 16);
-        const maxScroll = track.scrollWidth / 2;
         if (scrollPosRef.current >= maxScroll) {
           scrollPosRef.current = 0;
         }
-        track.style.transform = `translateX(-${scrollPosRef.current}px)`;
       }
 
+      track.style.transform = `translateX(-${scrollPosRef.current}px)`;
       animationRef.current = requestAnimationFrame(animate);
     };
 
     animationRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(animationRef.current);
-  }, [isHovered]);
+  }, [isHovered, pointerX]);
 
   const duplicated = [...projects, ...projects];
 
   return (
     <div
+      ref={containerRef}
       className="relative mt-8 overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={(event) => setPointerX(event.clientX)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setPointerX(null);
+      }}
     >
       {/* Fade edges */}
       <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-navy-900 to-transparent" />
@@ -265,7 +292,7 @@ function ScrollingRow({ projects }: { projects: Project[] }) {
 
       <div
         ref={trackRef}
-        className="flex gap-4 will-change-transform"
+        className="flex gap-4 will-change-transform cursor-ew-resize"
         style={{ width: 'max-content' }}
       >
         {duplicated.map((p, i) => (

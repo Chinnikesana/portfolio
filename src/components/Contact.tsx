@@ -1,8 +1,11 @@
 import { ArrowUpRight, Download, Github, Linkedin, Mail } from 'lucide-react';
-import { profile } from '../data';
+import { normalizeUrl, profile } from '../data';
 import Reveal from './Reveal';
 
 export default function Contact() {
+  const githubUrl = normalizeUrl(profile.github);
+  const linkedinUrl = normalizeUrl(profile.linkedin);
+
   return (
     <footer id="contact" className="relative border-t border-border overflow-hidden bg-navy-950">
       {/* Glow */}
@@ -54,8 +57,8 @@ export default function Contact() {
                 <ul className="space-y-0.5">
                   {[
                     { icon: <Mail className="h-4 w-4" />, label: 'Email', href: `mailto:${profile.email}`, display: profile.email },
-                    { icon: <Github className="h-4 w-4" />, label: 'GitHub', href: profile.github, display: 'github.com/Chinnikesana' },
-                    { icon: <Linkedin className="h-4 w-4" />, label: 'LinkedIn', href: profile.linkedin, display: 'in/chinni-kesana' },
+                    { icon: <Github className="h-4 w-4" />, label: 'GitHub', href: githubUrl, display: 'github.com/Chinnikesana' },
+                    { icon: <Linkedin className="h-4 w-4" />, label: 'LinkedIn', href: linkedinUrl, display: 'in/chinni-kesana' },
                   ].map((link) => (
                     <li key={link.label}>
                       <a

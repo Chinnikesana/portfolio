@@ -1,8 +1,11 @@
 import { ArrowDown, FileText, Github, Linkedin, Mail } from 'lucide-react';
-import { profile } from '../data';
+import { normalizeUrl, profile } from '../data';
 import StackDiagram from './StackDiagram';
 
 export default function Hero() {
+  const githubUrl = normalizeUrl(profile.github);
+  const linkedinUrl = normalizeUrl(profile.linkedin);
+
   return (
     <section
       id="top"
@@ -84,7 +87,7 @@ export default function Hero() {
             {/* Social links */}
             <div className="mt-6 flex items-center gap-4">
               <a
-                href={profile.github}
+                href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
@@ -93,7 +96,7 @@ export default function Hero() {
                 <Github className="h-4 w-4" />
               </a>
               <a
-                href={profile.linkedin}
+                href={linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"

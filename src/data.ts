@@ -92,6 +92,13 @@ export type Project = {
   image?: string;
 };
 
+export function normalizeUrl(url?: string): string | undefined {
+  if (!url) return undefined;
+  if (url.startsWith('#') || url.startsWith('/') || url.startsWith('mailto:')) return url;
+  if (/^https?:\/\//i.test(url)) return url;
+  return `https://${url}`;
+}
+
 export const projects: Project[] = [
   {
     id: 'lumina',
@@ -107,7 +114,8 @@ export const projects: Project[] = [
     result:
       'Delivered an interactive learning experience that transforms static documents into AI-powered audio lessons with synchronized highlighting, contextual chat, and persistent note-taking for faster, more engaging learning.',
     stack: ['React/Vite', 'FastAPI', 'Gemini API', 'ChromaDB', 'Tailwind', 'Python'],
-    liveUrl: 'lumina-ai-ivpbj2fat-chinni-kesana-s-projects.vercel.app',
+
+    liveUrl:'https://lumina-ai-bblg50n87-chinni-kesana-s-projects.vercel.app/',
     repoUrl: 'https://github.com/Chinnikesana/Lumina-Backend.git',
   },
   {
@@ -219,7 +227,7 @@ export const projects: Project[] = [
     result:
       'Helps identify bottlenecks before launch. Improved user experience and search rankings for tested sites.',
     stack: ['Next.js', 'Vercel', 'REST APIs', 'Google PageSpeed Insights'],
-    liveUrl: 'seo-and-performance-audit-tool-2y093qu6w.vercel.app',
+    liveUrl: 'seo-and-performance-audit-tool.vercel.app',
     repoUrl: 'https://github.com/Chinnikesana/SEO_AND_PERFORMANCE_AUDIT_TOOL.git',
   },
   {
@@ -300,11 +308,11 @@ export const profile = {
   email: 'n200626@rguktn.ac.in',
   github: 'https://github.com/Chinnikesana',
   linkedin: 'https://www.linkedin.com/in/chinni-kesana-b1b2bb264/',
-  resume: '#',
+  resume: 'https://drive.google.com/file/d/14x6CULe8nUhmIdOR142v3dFZmNCyB99r/view?usp=sharing',
   photo: '/images/passport_size_img.jpeg',
   pitch:
     'I build production web applications end-to-end — React/Vite frontends, FastAPI and Node.js backends — and I specialize in wiring AI agents and RAG pipelines into them using LangGraph, CrewAI, and MCP. Most recently I was the sole developer on a real-time Voice AI platform for hotel concierge, from UI to backend to the voice orchestration layer.',
   about:
     "Final-year B.Tech Computer Science student at RGUKT Nuzvid (CGPA 8.2/10), currently an AI & ML Intern at Hallmark Global Technologies. Comfortable owning a feature from database schema to deployed UI, with a particular focus on the layer where traditional web apps meet AI agents — the part most full-stack developers haven't built yet.",
-  credibility: 'Shipping production AI at Hallmark Global Technologies',
+  credibility: 'Shipping production web apps and AI systems in real time',
 };
