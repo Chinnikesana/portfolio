@@ -107,7 +107,7 @@ export const projects: Project[] = [
     result:
       'Delivered an interactive learning experience that transforms static documents into AI-powered audio lessons with synchronized highlighting, contextual chat, and persistent note-taking for faster, more engaging learning.',
     stack: ['React/Vite', 'FastAPI', 'Gemini API', 'ChromaDB', 'Tailwind', 'Python'],
-    liveUrl: 'lumina-ai-6ywxedm88-chinni-kesana-s-projects.vercel.app',
+    liveUrl: 'lumina-ai-ivpbj2fat-chinni-kesana-s-projects.vercel.app',
     repoUrl: 'https://github.com/Chinnikesana/Lumina-Backend.git',
   },
   {
