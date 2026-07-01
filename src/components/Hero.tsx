@@ -77,6 +77,8 @@ export default function Hero() {
               </a>
               <a
                 href={profile.resume}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg border border-border bg-navy-800/60 px-5 py-2.5 text-sm font-medium text-ink backdrop-blur-sm transition-all duration-200 hover:border-border-bright hover:bg-navy-700"
               >
                 <FileText className="h-4 w-4 text-ink-muted" />
